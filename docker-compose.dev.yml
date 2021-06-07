@@ -1,0 +1,34 @@
+version: '3.9'
+
+networks:
+  host:
+    driver: bridge
+
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: dev
+    ports:
+      - 3000:3000
+    volumes:
+      - ./:/app
+    networks:
+      - host
+    environment:
+      NODE_ENV: development
+      PORT: 3000
+      COOKIE_SECRET: secret123
+      REDIS_HOST: localhost
+      REDIS_PORT: 6379
+      REDIS_PASSWORD: redis
+    links:
+      - redis:redis
+  redis:
+    image: redis:alpine
+    command: redis-server --appendonly yes --requirepass redis
+    volumes:
+      - .\.redis-data:/data
+    networks:
+      - host
