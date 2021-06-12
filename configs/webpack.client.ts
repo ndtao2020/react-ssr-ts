@@ -5,6 +5,7 @@ import TerserPlugin from "terser-webpack-plugin"
 import MiniCssExtractPlugin from "mini-css-extract-plugin"
 import { WebpackManifestPlugin } from "webpack-manifest-plugin"
 import { BundleAnalyzerPlugin } from "webpack-bundle-analyzer"
+import { RenderView } from "../src/types"
 import pages from "./pages"
 import configBuild from "./build"
 import { isDev } from "../utils/EnvUtils"
@@ -27,10 +28,12 @@ const config: Configuration = {
     rules: common.rules(true),
   },
   entry: pages.reduce(
-    (result: any, { page }) => {
+    (result: object, { page }: RenderView) => {
       const p = path.resolve(__dirname, `../src/client/${page}`)
-      result[page] = isDev(process.env) ? [p, `webpack-hot-middleware/client`] : p
-      return result
+      return {
+        ...result,
+        [page]: isDev(process.env) ? [p, `webpack-hot-middleware/client`] : p,
+      }
     },
     {
       404: path.resolve(__dirname, `../src/client/error/404.jsx`),

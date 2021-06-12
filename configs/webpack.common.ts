@@ -24,7 +24,7 @@ export default {
       loader: "css-loader",
       options: { importLoaders: 1, sourceMap: isDev(process.env) },
     })
-    if (isClient) {
+    if (isClient && !isDev(process.env)) {
       use.push({
         loader: "postcss-loader",
         options: {

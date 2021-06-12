@@ -1,5 +1,6 @@
 import express from "express"
 import createError from "http-errors"
+import { RenderView } from "../../types"
 // build
 import pages from "../../../configs/pages"
 import configBuild from "../../../configs/build"
@@ -19,30 +20,30 @@ router.get("/robots.txt", (req, res) => {
   res.send(`User-agent: *\nDisallow: /profile/*`)
 })
 // PAGES
-pages.forEach(({ url, page, title, view, css, scripts }) =>
+pages.forEach(({ url, page, css, scripts, ...attr }: RenderView) =>
   router.get(url, csrfProtection, html, async (req, res, next) => {
-    const entryCss = [],
-      entryJS = []
+    const entryCss: Array<string> = [],
+      entryJS: Array<any> = []
     // css, js
     css && css.forEach((e) => entryCss.push(e))
     scripts && scripts.forEach((e) => entryJS.push(e))
     // devMiddleware
     const manifest = await import("../../../build/statics/manifest.json")
-    manifest["css"][page].forEach((e) =>
+    manifest["css"][page].forEach((e: string) =>
       entryCss.push(`/${configBuild.folderStatic}/${e}`)
     )
-    manifest["js"][page].forEach((e) =>
+    manifest["js"][page].forEach((e: any) =>
       entryJS.push({
         async: false,
         src: `/${configBuild.folderStatic}/${e}`,
       })
     )
     renderView(req, res, next, {
+      ...attr,
+      url,
       css: entryCss,
       scripts: entryJS,
       page,
-      title,
-      view,
     })
   })
 )

@@ -1,4 +1,6 @@
-export default [
+import { RenderView } from "../src/types"
+
+const pages: RenderView[] = [
   {
     page: "home",
     title: `Home`,
@@ -11,3 +13,5 @@ export default [
   //   url: "/admin*",
   // },
 ]
+
+export default pages

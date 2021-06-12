@@ -1,5 +1,6 @@
 import express from "express"
 import createError from "http-errors"
+import { RenderView } from "../../types"
 // build
 import pages from "../../../configs/pages"
 import configBuild from "../../../configs/build"
@@ -16,17 +17,17 @@ const router = express.Router()
 // API
 router.use(csrfProtection, api)
 // PAGES
-pages.forEach(({ url, page, title, view, css, scripts }: any) =>
+pages.forEach(({ url, page, css, scripts, ...attr }: RenderView) =>
   router.get(url, csrfProtection, noCache, html, async (req, res, next) => {
-    const entryCss: string[] = [],
-      entryJS: object[] = []
+    const entryCss: Array<string> = [],
+      entryJS: Array<any> = []
     // css, js
-    css && css.forEach((e) => entryCss.push(e))
-    scripts && scripts.forEach((e) => entryJS.push(e))
+    css && css.forEach((e: string) => entryCss.push(e))
+    scripts && scripts.forEach((e: any) => entryJS.push(e))
     // devMiddleware
     const { devMiddleware } = res.locals.webpack
     const { assetsByChunkName } = devMiddleware.stats.toJson()
-    assetsByChunkName[page].forEach((e) => {
+    assetsByChunkName[page].forEach((e: string) => {
       const path = e.trim()
       if (path.endsWith(".css")) {
         entryCss.push(`/${configBuild.folderStatic}/${path}`)
@@ -38,13 +39,14 @@ pages.forEach(({ url, page, title, view, css, scripts }: any) =>
         })
       }
     })
-    renderView(req, res, next, {
+    const props: RenderView = {
+      ...attr,
       css: entryCss,
       scripts: entryJS,
       page,
-      title,
-      view,
-    })
+      url,
+    }
+    renderView(req, res, next, props)
   })
 )
 // catch 404 and forward to error handler

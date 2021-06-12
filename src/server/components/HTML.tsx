@@ -1,5 +1,6 @@
 import React from "react"
 import PropTypes from "prop-types"
+import { RenderHTML } from "../../types"
 import configBuild from "../../../configs/build"
 
 export default function HTML({
@@ -9,13 +10,13 @@ export default function HTML({
   children,
   title,
   description,
-  keywords,
+  keywords = [],
   image,
-  css,
-  scripts,
+  css = [],
+  scripts = [],
   state,
   csrf,
-}) {
+}: RenderHTML) {
   // Render
   return (
     <html>
@@ -31,9 +32,7 @@ export default function HTML({
           content="xiMe8anTjJm9_X1C2X-DqdjN7zXptepvd9lILEC130M"
         />
         <title>{title || "Home Page"}</title>
-        <meta
-          name="description"
-          content={description || process.env.APP_DESCRIPTION}
+        <meta name="description" content={description || ""}
         />
         <meta name="keywords" content={keywords.join(",")} />
         <meta property="og:site_name" content={title || "Home Page"} />
@@ -41,10 +40,7 @@ export default function HTML({
         <meta property="og:locale" content="vi_VN" />
         <meta property="og:url" content={`${hostname}${url}`} />
         <meta property="og:title" content={title || "Home Page"} />
-        <meta
-          property="og:description"
-          content={description || process.env.APP_DESCRIPTION}
-        />
+        <meta property="og:description" content={description || ""} />
         <meta
           property="og:image"
           content={image ? image : `${hostname}/${configBuild.folderAssets}/l.png`}

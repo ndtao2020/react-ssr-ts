@@ -8,7 +8,9 @@ import serverConfig from "../configs/webpack.server"
 console.log("Compiling...")
 // Complie source client
 webpack(clientConfig).run((err, stats) =>
-  endWebpack(err, stats, () =>
+  endWebpack(
+    err,
+    stats,
     webpack(serverConfig).run((err, stats) => endWebpack(err, stats))
   )
 )

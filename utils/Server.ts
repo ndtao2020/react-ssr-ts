@@ -3,7 +3,7 @@ import { Request } from "express"
 /**
  * Parse Host
  */
-export function parseHost(req: Request) {
+export function parseHost(req: Request): String {
   return `${req.protocol}://${req.subdomains ? `${req.subdomains.join(".")}.` : ""}${
     req.hostname
   }`
