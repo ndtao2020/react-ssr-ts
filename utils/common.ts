@@ -4,15 +4,15 @@ import { format } from "date-fns"
  * Lấy giá trị từ thẻ Meta tag theo Key truyền vào
  * @param {String} key meta cần lấy
  */
-export function getContentMetaTag(key) {
-  return `${document.querySelector(`meta[name="${key}"]`).getAttribute("content")}`
+export function getContentMetaTag(key: string) {
+  return `${document.querySelector(`meta[name="${key}"]`)?.getAttribute("content")}`
 }
 
 /**
  * Thẩm định Email
  * @param {String} email cần thẩm định
  */
-export function validateEmail(email) {
+export function validateEmail(email: string) {
   return email.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i)
 }
 
@@ -20,7 +20,7 @@ export function validateEmail(email) {
  * Định dạng ngày thành dd/MM/yyyy
  * @param {String} value giá trị cần định dạng
  */
-export function formatDate(value) {
+export function formatDate(value: number | string | Date) {
   return value ? format(new Date(value), "dd/MM/yyyy") : ""
 }
 
@@ -28,7 +28,7 @@ export function formatDate(value) {
  * Định dạng thời gian HH:mm:ss
  * @param {String} value giá trị cần định dạng
  */
-export function formatTime(value) {
+export function formatTime(value: number | string | Date) {
   return value ? format(new Date(value), "HH:mm:ss") : ""
 }
 
@@ -36,7 +36,7 @@ export function formatTime(value) {
  * Định dạng thời gian dd/MM/yyyy HH:mm:ss
  * @param {String} value giá trị cần định dạng
  */
-export function formatDatetime(value) {
+export function formatDatetime(value: number | string | Date) {
   return value ? format(new Date(value), "dd/MM/yyyy HH:mm:ss") : ""
 }
 
@@ -44,7 +44,7 @@ export function formatDatetime(value) {
  * Định dạng thời gian yyyy-MM-dd'T'HH:mm:ss
  * @param {String} value giá trị cần định dạng
  */
-export function formatISODate(value) {
+export function formatISODate(value: number | string | Date) {
   return value ? format(new Date(value), "yyyy-MM-dd'T'HH:mm:ss") : null
 }
 
@@ -52,7 +52,7 @@ export function formatISODate(value) {
  * Định dạng tiền tệ VND
  * @param {Intl} value
  */
-export function formatCurrency(value) {
+export function formatCurrency(value: number | bigint) {
   return new Intl.NumberFormat("vi", {
     style: "currency",
     currency: "VND",
@@ -64,11 +64,11 @@ export function formatCurrency(value) {
  * @param {*} arr Mảng được truyền vào
  * @param {*} value giá trị cần xóa
  */
-export function arrayRemove(arr, value) {
+export function arrayRemove(arr: [], value: string) {
   return arr.filter((ele) => ele !== value)
 }
 
-export const onChangeAlias = (value) => {
+export const onChangeAlias = (value: string) => {
   let str = value + ""
   str = str.toLowerCase()
   str = str.replace(/à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ/g, "a")

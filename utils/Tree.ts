@@ -1,11 +1,11 @@
 // Get All List Tree
 const getAllListTree = (
-  roots: [],
+  roots: any[],
   list: [],
   propertyId: string | number,
   propertyParent: string | number
 ) => {
-  return roots.map((x) => {
+  return roots.map((x: { [key: string]: any }) => {
     x.children = list.filter((k) => x[propertyId] === k[propertyParent])
     if (x.children != null) {
       getAllListTree(x.children, list, propertyId, propertyParent)
@@ -22,7 +22,7 @@ export function generateTree(
 ) {
   if (list != null) {
     return getAllListTree(
-      list.filter((x) => x[propertyParent] === null),
+      list.filter((x: { [key: string]: any }) => x[propertyParent] === null),
       list,
       propertyId,
       propertyParent
@@ -32,7 +32,11 @@ export function generateTree(
 }
 
 // Search Tree
-export function searchTree(item: { children: [] }, property: string, value: any) {
+export function searchTree(
+  item: { [key: string]: any; children: [] },
+  property: string,
+  value: any
+) {
   if (item[property] === value) {
     return item
   } else {

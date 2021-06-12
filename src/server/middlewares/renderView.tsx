@@ -1,7 +1,6 @@
 import React from "react"
 import { renderToNodeStream } from "react-dom/server"
 import { Request, Response, NextFunction } from "express"
-import { isLogin } from "./session"
 import { RenderView } from "../../types"
 import { parseHost } from "../../../utils/Server"
 import HTML from "../components/HTML"
@@ -11,7 +10,7 @@ export default async (
   { css, scripts, hostname, view, state, page, title, requiredLogin = "public", ...attr }: RenderView
 ) => {
   try {
-    const logined = isLogin(req)
+    const logined = false;
     requiredLogin === "protected" && logined && res.redirect("/")
     requiredLogin === "private" && !logined && res.redirect("/login")
     // render

@@ -25,7 +25,7 @@ export const logDoneWebpack = (stats: Stats | undefined) =>
 export const endWebpack = (
   err: Error | undefined,
   stats: Stats | undefined,
-  callback?: void
+  callback?: any
 ) => {
   logErrorWebpack(err, stats)
   logDoneWebpack(stats)

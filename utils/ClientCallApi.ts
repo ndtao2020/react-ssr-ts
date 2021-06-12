@@ -3,9 +3,8 @@
  * @param {String} key meta cần lấy
  */
 export function getCSRF() {
-  return `${document
-    .querySelector(`meta[name="_csrc9eebe"]`)
-    .getAttribute("content")}`
+  const obj = document.querySelector(`meta[name="_csrc9eebe"]`)
+  return `${obj ? obj.getAttribute("content") : ""}`
 }
 
 /**
@@ -15,8 +14,8 @@ export function getCSRF() {
  * @param {String} method phương thức cần yêu cầu
  * @param {Object} body dữ liệu cần truyền lến nếu có
  */
-export default (prefix, url, method, body) => {
-  let configs = {
+export default (prefix: string, url: string, method: string, body: BodyInit) => {
+  let configs: RequestInit = {
     method,
     credentials: "same-origin", // <-- includes cookies in the request
     headers: {
@@ -25,12 +24,12 @@ export default (prefix, url, method, body) => {
   }
   if (method !== "GET") {
     if (method === "POST" || method === "PUT" || method === "PATCH") {
-      configs.headers["Content-Type"] = "application/json"
+      configs.headers = new Headers({ "Content-Type": "application/json" })
       if (body) {
         configs["body"] = body
       }
     }
-    configs.headers["CSRF-Token"] = getCSRF()
+    configs.headers = new Headers({ "CSRF-Token": getCSRF() })
   }
   return fetch(`${prefix}${url}`, configs)
     .then((res) => {

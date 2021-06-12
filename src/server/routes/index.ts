@@ -28,23 +28,23 @@ pages.forEach(({ url, page, css, scripts, ...attr }: RenderView) =>
     css && css.forEach((e) => entryCss.push(e))
     scripts && scripts.forEach((e) => entryJS.push(e))
     // devMiddleware
-    const manifest = await import("../../../build/statics/manifest.json")
-    manifest["css"][page].forEach((e: string) =>
-      entryCss.push(`/${configBuild.folderStatic}/${e}`)
-    )
-    manifest["js"][page].forEach((e: any) =>
-      entryJS.push({
-        async: false,
-        src: `/${configBuild.folderStatic}/${e}`,
-      })
-    )
-    renderView(req, res, next, {
-      ...attr,
-      url,
-      css: entryCss,
-      scripts: entryJS,
-      page,
-    })
+    // const manifest = await import("../../../build/statics/manifest.json")
+    // manifest["css"][page].forEach((e: string) =>
+    //   entryCss.push(`/${configBuild.folderStatic}/${e}`)
+    // )
+    // manifest["js"][page].forEach((e: any) =>
+    //   entryJS.push({
+    //     async: false,
+    //     src: `/${configBuild.folderStatic}/${e}`,
+    //   })
+    // )
+    // renderView(req, res, next, {
+    //   ...attr,
+    //   url,
+    //   css: entryCss,
+    //   scripts: entryJS,
+    //   page,
+    // })
   })
 )
 // catch 404 and forward to error handler

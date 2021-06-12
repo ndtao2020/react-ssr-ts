@@ -69,6 +69,7 @@
     "@types/mini-css-extract-plugin": "^1.4.3",
     "@types/node": "^15.12.1",
     "@types/react-dom": "^17.0.6",
+    "@types/react-router-dom": "^5.1.7",
     "@types/redis": "^2.8.29",
     "@types/sass": "^1.16.0",
     "@types/tailwindcss": "^2.0.5",
